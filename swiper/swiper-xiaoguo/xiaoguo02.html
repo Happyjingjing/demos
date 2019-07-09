@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Swiper的切换</title>
+    <link rel="stylesheet" href="swiper.min.css">
+    <!-- <link rel="stylesheet" href="css/certify.css"> -->
+    <script src="swiper.min.js"></script>
+    <script type="text/javascript" src="http://js.lotour.net/jquery-1.8.3.min.js"></script>
+    <style>
+        body {margin: 0;}
+        #certify {position: relative;width: 1200px;margin:30px auto}
+        #certify .swiper-container {padding-bottom: 60px;}
+        #certify .swiper-slide {width:465px;height:765px;background: #fff;}
+        #certify .swiper-slide img {width:100%;height:100%;display: block}
+        #certify .swiper-pagination {width: 100%;bottom: 20px;}
+        #certify .swiper-pagination-bullets .swiper-pagination-bullet {margin: 0 5px;border: 3px solid #fff;background-color: #d5d5d5; width: 10px;height: 10px;opacity: 1;}
+        #certify .swiper-pagination-bullets .swiper-pagination-bullet-active {border: 3px solid #00aadc;background-color: #fff;}
+        #certify .swiper-button-prev {left: 0;width: 45px;height: 45px;background:#f00;}
+        #certify .swiper-button-prev:hover {background-position: 0 -46px;background-size: 100%}
+        #certify .swiper-button-next {right: 0;width: 45px;height: 45px;background:#f00}
+        #certify .swiper-button-next:hover {background-position: 0 -139px;background-size: 100%}
+    </style>
+</head>
+
+<body>
+    <div id="certify">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815572683a3e.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815572683a3e.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815572683a3e.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815572683a3e.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815572683a3e.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815572718231.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/201809181554061555b.jpg" /></div>
+                <div class="swiper-slide"><img src="http://img1.lotour.net/uploadImg/2018/09/2018091815540625d25.jpg" /></div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <script>
+        certifySwiper = new Swiper('#certify .swiper-container', {
+            watchSlidesProgress: true,
+            slidesPerView: 'auto',
+            centeredSlides: true,
+            loop: true,
+            loopedSlides: 8,
+            // autoplay: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                //clickable :true,
+            },
+            on: {
+                progress: function (progress) {
+                    for (i = 0; i < this.slides.length; i++) {
+                        var slide = this.slides.eq(i);
+                        var slideProgress = this.slides[i].progress;
+                        modify = 1;
+                        if (Math.abs(slideProgress) > 1) {
+                            modify = (Math.abs(slideProgress) - 1) * .09 + 1;
+                        }
+                        translate = slideProgress * modify * 265 + 'px';
+                        scale = 1 - Math.abs(slideProgress) / 8;
+                        zIndex = 999 - Math.abs(Math.round(16 * slideProgress));
+                        slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+                        slide.css('zIndex', zIndex);
+                        slide.find('img').css('opacity', 1);
+                        if (Math.abs(slideProgress) != 0) {
+                            //slide.css('opacity', 1);
+                            slide.find('img').css('opacity','0.3');
+                        }
+                    }
+                },
+                setTransition: function (transition) {
+                    for (var i = 0; i < this.slides.length; i++) {
+                        var slide = this.slides.eq(i)
+                        slide.transition(transition);
+                    }
+
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
